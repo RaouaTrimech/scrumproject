@@ -17,7 +17,7 @@ class _LogInState extends State<LogIn> {
 
   //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+//verification email
   Widget _buildEmail(){
     return TextFormField(
       decoration: InputDecoration(labelText: 'Email') ,
