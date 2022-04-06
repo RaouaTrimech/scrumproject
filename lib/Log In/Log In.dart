@@ -21,7 +21,12 @@ class _LogInState extends State<LogIn> {
 
   //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+<<<<<<< HEAD
   Utilisateur user = Utilisateur("","", "");
+=======
+
+  Utilisateur user = Utilisateur("", "");
+>>>>>>> cdf0deecb56ebd551c06939669aa5ec39ec22cbe
   String url = "http://localhost:8080/login";
 
   Future save() async {
@@ -37,6 +42,9 @@ class _LogInState extends State<LogIn> {
           ));
     }
   }
+
+//verification email
+
   Widget _buildEmail(){
     return TextFormField(
       decoration: InputDecoration(labelText: 'Email') ,
@@ -77,7 +85,7 @@ class _LogInState extends State<LogIn> {
       },
     ) ;
   }
-
+//page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
