@@ -21,7 +21,7 @@ class _LogInState extends State<LogIn> {
 
   //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Utilisateur user = Utilisateur("", "");
+  Utilisateur user = Utilisateur("","", "");
   String url = "http://localhost:8080/login";
 
   Future save() async {

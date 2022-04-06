@@ -20,13 +20,13 @@ class _SignUpState extends State<SignUp> {
   late String _confirmPassword;
  //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Utilisateur user = Utilisateur("", "");
+  Utilisateur user = Utilisateur("","", "");
   String url = "http://localhost:8080/register";
 
   Future save() async {
     var res = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'email': user.email, 'password': user.password}));
+        body: json.encode({'name':user.name,'email': user.email, 'password': user.password}));
     print(res.body);
     if (res.body != null) {
       Navigator.pop(context);
