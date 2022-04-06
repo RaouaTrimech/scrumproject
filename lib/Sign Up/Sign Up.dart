@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scrumproject/Sign%20Up/Redirect.dart';
-
+import 'package:scrumproject/utilisateur.dart';
+import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -17,7 +20,20 @@ class _SignUpState extends State<SignUp> {
   late String _confirmPassword;
  //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Utilisateur user = Utilisateur("", "");
+  String url = "http://localhost:8080/register";
 
+  Future save() async {
+    var res = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'email': user.email, 'password': user.password}));
+    print(res.body);
+    if (res.body != null) {
+      Navigator.pop(context);
+    }
+  }
+  
+  
   Widget _buildName(){
     return TextFormField(
       decoration: InputDecoration(labelText: 'Name') ,
@@ -62,11 +78,11 @@ class _SignUpState extends State<SignUp> {
         if (value == null || value.isEmpty) {
           return 'Password is Required';
         }
-        if (!RegExp(
+        /*if (!RegExp(
            "^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}")
             .hasMatch(value)) {
           return 'Please enter a valid Password';
-        }
+        }*/
         return null;
       },
       onSaved: (value){
@@ -82,11 +98,11 @@ class _SignUpState extends State<SignUp> {
         if (value == null || value.isEmpty) {
           return 'ConfirmPassword is Required';
         }
-        if (!RegExp(
+        /*if (!RegExp(
             "^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{5,}")
             .hasMatch(value)) {
           return 'Please enter a valid Password';
-        }
+        }*/
         if(value != _password){
           return 'Please enter a valid Password';
         }
@@ -149,6 +165,7 @@ class _SignUpState extends State<SignUp> {
                              // the form is invalid.
                              if (_formKey.currentState!.validate()) {
                                // Process data.
+                               save();
                              }
                            },
                            child: Container(

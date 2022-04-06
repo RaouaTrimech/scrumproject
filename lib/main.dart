@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scrumproject/Log%20In/Log%20In.dart';
 import 'package:scrumproject/Sign%20Up/Sign%20Up.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 40, fontFamily: "Roboto-Medium"),
         )
       ),*/
-      home: SignUp(),
+      home: LogIn(),
     );
   }
 }
