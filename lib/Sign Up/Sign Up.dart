@@ -14,19 +14,19 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  late String _name;
-  late String _email;
-  late String _password;
-  late String _confirmPassword;
+   String? _name;
+   String? _email;
+   String? _password;
+   String? _confirmPassword;
  //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  Utilisateur user = Utilisateur("", "");
+  Utilisateur user = Utilisateur("", "","");
   String url = "http://localhost:8080/register";
 
   Future save() async {
     var res = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'email': user.email, 'password': user.password}));
+        body: json.encode({'name':user.name,'email': user.email, 'password': user.password}));
     print(res.body);
     if (res.body != null) {
       Navigator.pop(context);
@@ -45,8 +45,10 @@ class _SignUpState extends State<SignUp> {
         }
         return null;
       },
-      onSaved: (value){
-        _email = value! ;
+      onChanged: (value){
+          _name = value! ;
+
+        print(_name);
       },
     ) ;
   }
@@ -65,8 +67,9 @@ class _SignUpState extends State<SignUp> {
         }
         return null;
       },
-      onSaved: (value){
-        _email = value! ;
+      onChanged: (value){
+          _email = value! ;
+        print(_email);
       },
     ) ;
   }
@@ -86,7 +89,10 @@ class _SignUpState extends State<SignUp> {
         return null;
       },
       onSaved: (value){
-        _password = value! ;
+        void initState() {
+          _password = value!;
+        }
+        print(_password);
       },
     ) ;
   }
@@ -104,12 +110,14 @@ class _SignUpState extends State<SignUp> {
           return 'Please enter a valid Password';
         }*/
         if(value != _password){
-          return 'Please enter a valid Password';
+          return  ' ${_email } Please enter a valid Password';
         }
         return null;
       },
-      onSaved: (value){
-        _password = value! ;
+      onChanged: (value){
+
+          _password = value!;
+
       },
     ) ;
   }
