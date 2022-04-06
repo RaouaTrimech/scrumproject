@@ -1,6 +1,6 @@
 class Utilisateur {
-
-  String email ;
-  String password ;
-  Utilisateur(this.email,this.password);
+  String name = '';
+  String email = '';
+  String password = '';
+  Utilisateur(this.name,this.email,this.password);
 }

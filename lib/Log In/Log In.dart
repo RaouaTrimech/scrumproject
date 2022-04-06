@@ -22,13 +22,13 @@ class _LogInState extends State<LogIn> {
   //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Utilisateur user = Utilisateur("", "");
+  Utilisateur user = Utilisateur("","", "");
   String url = "http://localhost:8080/login";
 
   Future save() async {
     var res = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
-        body: json.encode({'email': user.email, 'password': user.password}));
+        body: json.encode({'name':user.name,'email': user.email, 'password': user.password}));
     print(res.body);
     if (res.body != null) {
       Navigator.push(
@@ -57,7 +57,9 @@ class _LogInState extends State<LogIn> {
         return null;
       },
       onSaved: (value){
-        _email = value! ;
+        void initState() {
+          _email = value! ;
+        }
       },
     ) ;
   }
@@ -77,7 +79,9 @@ class _LogInState extends State<LogIn> {
         return null;
       },
       onSaved: (value){
-        _password = value! ;
+        void initState() {
+          _password = value!;
+        }
       },
     ) ;
   }
