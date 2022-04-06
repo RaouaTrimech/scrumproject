@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:scrumproject/utilisateur.dart';
+import 'package:http/http.dart' as http;
+import '../Dashboard.dart';
 import '../Sign Up/Redirect.dart';
 
 class LogIn extends StatefulWidget {
@@ -17,7 +21,22 @@ class _LogInState extends State<LogIn> {
 
   //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Utilisateur user = Utilisateur("", "");
+  String url = "http://localhost:8080/login";
 
+  Future save() async {
+    var res = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'email': user.email, 'password': user.password}));
+    print(res.body);
+    if (res.body != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Dashboard(),
+          ));
+    }
+  }
   Widget _buildEmail(){
     return TextFormField(
       decoration: InputDecoration(labelText: 'Email') ,
@@ -85,7 +104,7 @@ class _LogInState extends State<LogIn> {
                 Container(
                   margin: EdgeInsets.only(top: 30 , bottom: 40),
                   child: Text(
-                    "Create Account",
+                    "Log in",
                     style: TextStyle(
                       fontFamily: "Prata" ,
                       color: Color.fromRGBO(88, 89, 91, 1),
@@ -110,6 +129,7 @@ class _LogInState extends State<LogIn> {
                             // the form is invalid.
                             if (_formKey.currentState!.validate()) {
                               // Process data.
+                              save();
                             }
                           },
                           child: Container(
