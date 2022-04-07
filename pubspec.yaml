@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   url_launcher: ^6.0.20
   http: ^0.13.4
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -61,9 +62,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/Logo9itari.png
-     - assets/long_distance.png
-     - assets/short_distance.png
+    - assets/Logo9itari.png
+    - assets/longDistance.png
+    - assets/shortDistance.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

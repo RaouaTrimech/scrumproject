@@ -48,7 +48,7 @@ class _trainDetailsState extends State<trainDetails> {
                   margin : EdgeInsets.all(13.15),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(13.15),
-                    child: Image.asset("long_distance.png", width: 155 , height: 138.15),
+                    child: Image.asset('shortDistance.png', width: 155 , height: 138.15),
                   ),
                 )
               ],

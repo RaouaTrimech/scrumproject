@@ -46,7 +46,7 @@ class _SignUpState extends State<SignUp> {
         return null;
       },
       onChanged: (value){
-          _name = value! ;
+          _name = value ;
 
         print(_name);
       },
@@ -68,7 +68,7 @@ class _SignUpState extends State<SignUp> {
         return null;
       },
       onChanged: (value){
-          _email = value! ;
+          _email = value ;
         print(_email);
       },
     ) ;
@@ -90,7 +90,7 @@ class _SignUpState extends State<SignUp> {
       },
       onSaved: (value){
         void initState() {
-          _password = value!;
+          _password = value;
         }
         print(_password);
       },
@@ -116,7 +116,7 @@ class _SignUpState extends State<SignUp> {
       },
       onChanged: (value){
 
-          _password = value!;
+          _password = value;
 
       },
     ) ;
