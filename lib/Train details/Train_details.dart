@@ -38,20 +38,41 @@ class _trainDetailsState extends State<trainDetails> {
             height: 30,
           ),
           TrainHeader(TrainName: "TrainName",Station1: "Station1",
-              Station2: "Station2", Date: "04.05.22", Line: "04", TrainImage: "long_distance.png"),
+              Station2: "Station2", Date: "04.05.22", Line: "04", TrainImage: "longDistance.png"),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: FixedTimeline.tileBuilder(
               builder: TimelineTileBuilder.connectedFromStyle(
-                contentsAlign: ContentsAlign.alternating,
+                contentsAlign: ContentsAlign.reverse,
                 oppositeContentsBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('opposite\ncontents'),
+                  child: Row(
+                    children: [
+                      Text('4.49PM ',
+                        style: TextStyle(color: const Color.fromRGBO(166, 168, 172, 1),
+                            fontFamily: 'Roboto', fontWeight: FontWeight.w200,
+                        fontSize: 15)),
+                      Text(' Station Name',
+                        style: TextStyle(color: const Color.fromRGBO(166, 168, 172, 1),
+                            fontFamily: 'Roboto', fontWeight: FontWeight.w700,
+                            fontSize: 15),)
+
+                    ],
+                  ),
                 ),
-                contentsBuilder: (context, index) => Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text('Contents'),
+                contentsBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: const Color.fromRGBO(76, 149, 147, 0.81),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    margin: EdgeInsets.all(10) ,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Content',style: TextStyle(color: Colors.white ,
+                          fontFamily: 'Roboto', fontWeight: FontWeight.w500,
+                          fontSize: 15),),
+                    ),
                   ),
                 ),
                 connectorStyleBuilder: (context, index) => ConnectorStyle.solidLine,
