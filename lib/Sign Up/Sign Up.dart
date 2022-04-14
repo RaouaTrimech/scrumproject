@@ -14,16 +14,31 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-   String? _name;
-   String? _email;
    String? _password;
-   String? _confirmPassword;
+   bool _obscured = true;
+
+   final nameController = TextEditingController();
+   final emailController = TextEditingController();
+   final passwordController = TextEditingController();
+
+   @override
+   void dispose() {
+     // Clean up the controller when the widget is disposed.
+     nameController.dispose();
+     emailController.dispose();
+     passwordController.dispose();
+     super.dispose();
+   }
+
  //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Utilisateur user = Utilisateur("", "","");
-  String url = "http://localhost:8080/register";
+  String url = "http://192.168.43.112:8080/register";
 
   Future save() async {
+    user.name = nameController.text ;
+    user.email = emailController.text ;
+    user.password = passwordController.text ;
     var res = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'name':user.name,'email': user.email, 'password': user.password}));
@@ -36,6 +51,7 @@ class _SignUpState extends State<SignUp> {
   
   Widget _buildName(){
     return TextFormField(
+      controller: nameController,
       decoration: InputDecoration(labelText: 'Name') ,
       //maxLength: 20,
       // The validator receives the text that the user has entered
@@ -44,16 +60,12 @@ class _SignUpState extends State<SignUp> {
           return 'Name is Required';
         }
         return null;
-      },
-      onChanged: (value){
-          _name = value ;
-
-        print(_name);
-      },
+      }
     ) ;
   }
   Widget _buildEmail(){
     return TextFormField(
+      controller: emailController,
       decoration: InputDecoration(labelText: 'Email') ,
       // The validator receives the text that the user has entered
       validator: (value) {
@@ -66,15 +78,13 @@ class _SignUpState extends State<SignUp> {
           return 'Please enter a valid email Address';
         }
         return null;
-      },
-      onChanged: (value){
-          _email = value ;
-        print(_email);
-      },
+      }
     ) ;
   }
   Widget _buildPassword(){
     return TextFormField(
+      keyboardType: TextInputType.visiblePassword,
+      obscureText: _obscured,
       decoration: InputDecoration(labelText: 'Password') ,
       // The validator receives the text that the user has entered.
       validator: (value) {
@@ -89,15 +99,15 @@ class _SignUpState extends State<SignUp> {
         return null;
       },
       onSaved: (value){
-        void initState() {
           _password = value;
-        }
-        print(_password);
       },
     ) ;
   }
   Widget _buildConfirmPassword(){
     return TextFormField(
+      keyboardType: TextInputType.visiblePassword,
+      obscureText: _obscured,
+      controller: passwordController,
       decoration: InputDecoration(labelText: 'Confirm Password') ,
       // The validator receives the text that the user has entered.
       validator: (value) {
@@ -110,26 +120,25 @@ class _SignUpState extends State<SignUp> {
           return 'Please enter a valid Password';
         }*/
         if(value != _password){
-          return  ' ${_email } Please enter a valid Password';
+          return  'Please enter a valid Password';
         }
         return null;
       },
       onChanged: (value){
-
           _password = value;
-
       },
     ) ;
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: SingleChildScrollView(
+        child : Column(
         children: [
-          Expanded(
-            child: Column(
+          Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
                   height:41 ,
@@ -143,25 +152,26 @@ class _SignUpState extends State<SignUp> {
                   height:41 ,
                   color:Color.fromRGBO(204, 235, 230, 1),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  "Create Account",
-                  style: TextStyle(
-                    fontFamily: "Prata" ,
-                    color: Color.fromRGBO(88, 89, 91, 1),
-                    fontSize: 40,
-                  ),
-                ),
-                Form(
+            Form(
                   key: _formKey,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40 , vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          "Create Account",
+                          style: TextStyle(
+                            fontFamily: "Prata" ,
+                            color: Color.fromRGBO(88, 89, 91, 1),
+                            fontSize: 37,
+                          ),
+                        ),
                         _buildName(),
                         _buildEmail(),
                         _buildPassword(),
@@ -201,17 +211,16 @@ class _SignUpState extends State<SignUp> {
                            ),
                          ),
                       ],
-                    ),
+                    )
                   ),
 
                 ),
                 ],
             ),
-          ),
-
           Redirect( RedirectNature: 'Sign In'),
         ],
       ),
+    ),
     );
   }
 }

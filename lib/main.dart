@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 40, fontFamily: "Roboto-Medium"),
         )
       ),*/
-      home: trainDetails(), //trainButton(Type: 'ShortDistance', Arrival: new DateTime(2022,12,12,14,40), Departure: new DateTime(2022,12,12,12,12), TrainName: 'trainshort',),
+      home: SignUp(), //trainButton(Type: 'ShortDistance', Arrival: new DateTime(2022,12,12,14,40), Departure: new DateTime(2022,12,12,12,12), TrainName: 'trainshort',),
     );
   }
 }
