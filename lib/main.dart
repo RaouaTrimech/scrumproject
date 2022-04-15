@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:scrumproject/Available%20trains/Train_List.dart';
 import 'package:scrumproject/Available%20trains/trainButton.dart';
 import 'package:scrumproject/Log%20In/Log%20In.dart';
@@ -38,7 +37,9 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 40, fontFamily: "Roboto-Medium"),
         )
       ),*/
-      home: SignUp(), //trainButton(Type: 'ShortDistance', Arrival: new DateTime(2022,12,12,14,40), Departure: new DateTime(2022,12,12,12,12), TrainName: 'trainshort',),
+      home:
+        trainList()
+        //trainButton(Type: 'ShortDistance', Arrival: new DateTime(2022,12,12,14,40), Departure: new DateTime(2022,12,12,12,12), TrainName: 'trainshort',)),
     );
   }
 }

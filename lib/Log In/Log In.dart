@@ -35,7 +35,7 @@ class _LogInState extends State<LogIn> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Utilisateur user = Utilisateur("","", "");
-  String url = "http://192.168.43.112:8080/login";
+  String url = "http://192.168.0.7:8080/login";
 
   Future save() async {
     user.email = emailController.text ;
@@ -127,9 +127,12 @@ class _LogInState extends State<LogIn> {
                     height:41 ,
                     color:Color.fromRGBO(204, 235, 230, 1),
                   ),
-                  Image.asset("Logo9itari.png"),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: const Image(image:AssetImage("assets/Logo.png"),width: 250 , height: 100),
+                  ),
                   Container(
-                    margin: EdgeInsets.only(top: 30 , bottom: 40),
+                    margin: EdgeInsets.only(top: 20 , bottom: 10),
                     child: Text(
                       "Log in",
                       style: TextStyle(
@@ -160,7 +163,7 @@ class _LogInState extends State<LogIn> {
                               }
                             },
                             child: Container(
-                              margin: EdgeInsets.only(top: 50),
+                              margin: EdgeInsets.only(top: 40),
                               height: 58,
                               width: 354,
                               decoration: BoxDecoration(

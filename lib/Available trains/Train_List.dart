@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:scrumproject/Available%20trains/trainButton.dart';
@@ -17,42 +18,43 @@ class _trainListState extends State<trainList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-            children: [
-              Expanded(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          height:41 ,
-                          color:Color.fromRGBO(168, 212, 239, 1),
+      body: Column(
+          children: [
+            Expanded(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        height:41 ,
+                        color:Color.fromRGBO(168, 212, 239, 1),
+                      ),
+                      Container(
+                        height:41 ,
+                        color:Color.fromRGBO(168, 212, 239, 0.66),
+                      ),
+                      Container(
+                        height:41 ,
+                        color:Color.fromRGBO(204, 235, 230, 1),
+                      ),
+                      SizedBox(
+                        height: 45,
+                      ),
+                      Text(
+                        "Available Trains",
+                        style: TextStyle(
+                          fontFamily: "Prata" ,
+                          color: Color.fromRGBO(88, 89, 91, 1),
+                          fontSize: 40,
                         ),
-                        Container(
-                          height:41 ,
-                          color:Color.fromRGBO(168, 212, 239, 0.66),
-                        ),
-                        Container(
-                          height:41 ,
-                          color:Color.fromRGBO(204, 235, 230, 1),
-                        ),
-                        SizedBox(
-                          height: 45,
-                        ),
-                        Text(
-                          "Available Trains",
-                          style: TextStyle(
-                            fontFamily: "Prata" ,
-                            color: Color.fromRGBO(88, 89, 91, 1),
-                            fontSize: 40,
-                          ),
-                        ),
-                        Expanded(
-                            child:list(),
-                        ),
-                      ]
-                  )),
-              const ButtomNavbar()]));
+                      ),
+                      Expanded(
+                        child:list(),
+                      ),
+                    ]
+                )),
+            const ButtomNavbar()]),
+    );
   }
 }
 
@@ -65,20 +67,18 @@ class list extends StatefulWidget {
 
 class _listState extends State<list> {
   int currentPage =1;
-  late int totalPages;
+  int totalPages=10;
   //pour tester
-  Train t = new Train(TrainName: 'TrainName', Departure: DateTime.now(), Arrival: DateTime.now(), Type: "Type");
+  //Train t = new Train(TrainName: 'TrainName', Departure: DateTime.now(), Arrival: DateTime.now(), Type: "Type");
   List<Train> trains = [];
   final RefreshController refreshController =
-      RefreshController(initialRefresh: true);
-////////*/
-  get http => null;
+  RefreshController(initialRefresh: true);
 
 
   Future<bool> getTrainData({ bool isRefresh = false}) async {
     //pour tester
-    trains.add(t);
-    /**/
+    //trains.add(t);
+
     if (isRefresh) {
       currentPage = 1;
     } else {
@@ -89,7 +89,7 @@ class _listState extends State<list> {
     }
 
     final Uri uri = Uri.parse(
-        "http://localhost:8080/trainList?page=$currentPage&size=4");
+        "http://192.168.0.7:8080/trainList");
 
     final response = await http.get(uri);
 
@@ -106,7 +106,7 @@ class _listState extends State<list> {
 
       totalPages = result.totalPages;
 
-      print(response.body);
+      //print(response.body);
       setState(() {});
       return true;
     } else {
@@ -116,36 +116,35 @@ class _listState extends State<list> {
   @override
   Widget build(BuildContext context) {
     return  SmartRefresher(
-        controller: refreshController,
-        enablePullUp: true,
-        onRefresh: () async {
-          final result = await getTrainData(isRefresh: true);
-          if (result) {
-            refreshController.refreshCompleted();
-          } else {
-            refreshController.refreshFailed();
-          }
-        },
-        onLoading: () async {
-          final result = await getTrainData();
-          if (result) {
-            refreshController.loadComplete();
-          } else {
-            refreshController.loadFailed();
-          }
-        },
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            final train = trains[index];
+      controller: refreshController,
+      enablePullUp: true,
+      onRefresh: () async {
+        final result = await getTrainData(isRefresh: true);
+        if (result) {
+          refreshController.refreshCompleted();
+        } else {
+          refreshController.refreshFailed();
+        }
+      },
+      onLoading: () async {
+        final result = await getTrainData();
+        if (result) {
+          refreshController.loadComplete();
+        } else {
+          refreshController.loadFailed();
+        }
+      },
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          final train = trains[index];
 
-            return trainButton(TrainName: train.TrainName,
-                Arrival: train.Arrival, Departure: train.Departure,
-                Type: train.Type);
-          },
-          separatorBuilder: (context, index) => Divider(),
-          itemCount: trains.length,
-        ),
-      );
+          return trainButton(TrainName: train.TrainName,
+              Arrival: train.Arrival, Departure: train.Departure,
+              Type: train.Type);
+        },
+        separatorBuilder: (context, index) => Divider(),
+        itemCount: trains.length,
+      ),
+    );
   }
 }
-

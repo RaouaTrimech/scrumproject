@@ -33,7 +33,7 @@ class _SignUpState extends State<SignUp> {
  //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Utilisateur user = Utilisateur("", "","");
-  String url = "http://192.168.43.112:8080/register";
+  String url = "http://192.168.0.7:8080/register";
 
   Future save() async {
     user.name = nameController.text ;
