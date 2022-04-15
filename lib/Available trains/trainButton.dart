@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class trainButton extends StatefulWidget {
@@ -30,7 +29,7 @@ class _trainButtonState extends State<trainButton> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 431,
+        width: 400,
         height: 116,
         padding:const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
         decoration: BoxDecoration(
@@ -47,15 +46,15 @@ class _trainButtonState extends State<trainButton> {
               children: [
                 Text(
                   trainName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color.fromRGBO(76, 149, 147, 1),
-                    fontFamily: "Roboto",
+                    fontFamily: "Roboto-Regular",
                     fontWeight: FontWeight.w600 ,
                     fontSize: 20,
                   ),
                 ),
                 Container(
-                  width: 247,
+                  width: 210,
                   height: 1,
                   margin: EdgeInsets.only(top: 5,bottom: 10),
                   color: Color.fromRGBO(197, 229, 237, 1),
@@ -78,7 +77,7 @@ class _trainButtonState extends State<trainButton> {
                     SizedBox(
                       width: 5,
                     ),
-                    Image.asset('DimandShapedLine.png'),
+                    const Image(image:AssetImage("assets/DimandShapedLine.png")),
                     SizedBox(
                       width: 5,
                     ),
@@ -149,12 +148,7 @@ class _trainButtonState extends State<trainButton> {
             ),
             ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(12)),
-              child: Image.asset(
-                "shortDistance.png",
-                width: 100,
-
-
-              ),
+              child: const Image(image:AssetImage("assets/shortDistance.jpg"),width: 100,)
             ),
           ],
 

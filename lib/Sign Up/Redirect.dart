@@ -12,41 +12,48 @@ class Redirect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 63,
-      color: Color.fromRGBO(168, 212, 239, 1),
-      child:Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-          (RedirectNature == 'Sign Up')? 'Already have an account   ' : "Don't have an account?   ",
-            style: TextStyle(
-              color: Colors.white ,
-              fontFamily: "Roboto"
-            ),
-          ),
-          (RedirectNature == 'Sign In')? ElevatedButton(
-            child:  Text( RedirectNature),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LogIn()),
-              );
-            },
-          ):
-          ElevatedButton(
-            child:  Text(RedirectNature),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SignUp()),
-              );
-            },
+    return Column(
+      children: [
+        SizedBox(
+          height: 125,
+        ),
+        Container(
+          height: 63,
+          color: Color.fromRGBO(168, 212, 239, 1),
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+              (RedirectNature == 'Sign Up')? 'Already have an account   ' : "Don't have an account?   ",
+                style: TextStyle(
+                  color: Colors.white ,
+                  fontFamily: "Roboto"
+                ),
+              ),
+              (RedirectNature == 'Sign In')? ElevatedButton(
+                child:  Text( RedirectNature),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LogIn()),
+                  );
+                },
+              ):
+              ElevatedButton(
+                child:  Text(RedirectNature),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUp()),
+                  );
+                },
+              )
+          ],
           )
-      ],
-      )
 
+        ),
+      ],
     );
   }
 }
