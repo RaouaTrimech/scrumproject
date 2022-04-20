@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:scrumproject/utilisateur.dart';
+import 'package:scrumproject/Available%20trains/Train_List.dart';
+import 'package:scrumproject/Utilisateurs/utilisateur.dart';
 import 'package:http/http.dart' as http;
 import '../Dashboard.dart';
 import '../Sign Up/Redirect.dart';
@@ -48,7 +49,7 @@ class _LogInState extends State<LogIn> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Dashboard(),
+            builder: (context) => trainList(),
           ));
     }
   }

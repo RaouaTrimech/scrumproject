@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scrumproject/Sign%20Up/Redirect.dart';
-import 'package:scrumproject/utilisateur.dart';
+import 'package:scrumproject/Utilisateurs/Sign%20Up/Redirect.dart';
+import 'package:scrumproject/Utilisateurs/utilisateur.dart';
 import 'package:http/http.dart' as http;
 
 class SignUp extends StatefulWidget {

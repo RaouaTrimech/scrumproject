@@ -2,11 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:scrumproject/Available%20trains/Train_List.dart';
-import 'package:scrumproject/Available%20trains/trainButton.dart';
-import 'package:scrumproject/Log%20In/Log%20In.dart';
-import 'package:scrumproject/Sign%20Up/Sign%20Up.dart';
-
-import 'Train details/Train_details.dart';
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -38,8 +33,7 @@ class MyApp extends StatelessWidget {
         )
       ),*/
       home:
-        trainList()
-        //trainButton(Type: 'ShortDistance', Arrival: new DateTime(2022,12,12,14,40), Departure: new DateTime(2022,12,12,12,12), TrainName: 'trainshort',)),
+      trainList()
     );
   }
 }
