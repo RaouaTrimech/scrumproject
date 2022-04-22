@@ -14,17 +14,21 @@ class TrainHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    return Container(
-     height : 170 ,
+     height : 160 ,
      color: const Color.fromRGBO(240, 249, 247, 1),
      child: Row(
        mainAxisAlignment: MainAxisAlignment.start,
        crossAxisAlignment: CrossAxisAlignment.center,
        children: [
          Container(
-           margin : const EdgeInsets.all(13.15),
+           margin : const EdgeInsets.all(11),
            child: ClipRRect(
-             borderRadius: BorderRadius.circular(13.15),
-             child: Image.asset(TrainImage, width: 155 , height: 138.15),
+             borderRadius: BorderRadius.circular(20),
+             //TrainImage
+             child : Image (image: AssetImage("assets/longDistance.jpg"),
+                 width: 130 ,
+                 height: 110
+               ),
            ),
          ),
          Column(
@@ -44,7 +48,7 @@ class TrainHeader extends StatelessWidget {
                  ),
                ),
                Container(
-                 width: 300 , height: 2,
+                 width: 200 , height: 2,
                  color: const Color.fromRGBO(197, 229, 237, 1),
                ),
                Row(
@@ -172,6 +176,7 @@ class TrainHeader extends StatelessWidget {
                          fontSize: 13.11,
                          fontWeight: FontWeight.bold),),
                  ),
+
                )
              ]
          )

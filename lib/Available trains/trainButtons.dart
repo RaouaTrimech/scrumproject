@@ -16,7 +16,7 @@ class trainButtons extends StatelessWidget {
   List<trainModel> trainList = [] ;
 
   Future<List<trainModel>> gettrainsApi ()async{
-    final response = await http.get(Uri.parse("http://localhost:8080/trainList")) ;
+    final response = await http.get(Uri.parse("http://192.168.100.159:8080/trainList")) ;
     var data = jsonDecode(response.body.toString());
     if(response.statusCode == 200){
       trainList.clear();
