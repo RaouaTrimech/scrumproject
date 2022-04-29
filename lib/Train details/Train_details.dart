@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
-
-import 'ButtomNavbar.dart';
 import 'Train_header.dart';
 
 class trainDetails extends StatefulWidget {
@@ -84,7 +82,10 @@ class _trainDetailsState extends State<trainDetails> {
         )
         ]
     )),
-          const ButtomNavbar()]));
+           Container(
+            height:41 ,
+            color:const Color.fromRGBO(168, 212, 239, 0.66),
+          )]));
   }
 }
 
