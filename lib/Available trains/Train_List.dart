@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../Train details/ButtomNavbar.dart';
 import 'trainButtons.dart';
 
 class trainList extends StatefulWidget {
@@ -50,8 +49,7 @@ class _trainListState extends State<trainList> {
                         child:trainButtons(),
                       ),
                     ]
-                )),
-            const ButtomNavbar()]),
+                ))]),
     );
   }
 }

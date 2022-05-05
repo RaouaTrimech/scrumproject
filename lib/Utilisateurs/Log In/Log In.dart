@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:scrumproject/Available%20trains/Train_List.dart';
 import 'package:scrumproject/Utilisateurs/utilisateur.dart';
 import 'package:http/http.dart' as http;
+import '../../Train details/Navigation.dart';
 import '../Dashboard.dart';
 import '../Sign Up/Redirect.dart';
 
@@ -36,7 +37,7 @@ class _LogInState extends State<LogIn> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Utilisateur user = Utilisateur("","", "");
-  String url = "http://192.168.100.159:8080/login";
+  String url = "http://192.168.1.16:8080/login";
 
   Future save() async {
     user.email = emailController.text ;
@@ -49,7 +50,7 @@ class _LogInState extends State<LogIn> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => trainList(),
+            builder: (context) => Navigation(title: "navigation"),
           ));
     }
   }

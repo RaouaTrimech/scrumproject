@@ -1,11 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:scrumproject/Available%20trains/Train_List.dart';
-import 'package:scrumproject/Train%20details/Train_details.dart';
 import 'package:scrumproject/Train_Ticket/TrainTicket.dart';
 import 'package:scrumproject/Utilisateurs/Log%20In/Log%20In.dart';
-import 'package:scrumproject/Utilisateurs/Sign%20Up/Sign%20Up.dart';
+import 'Train details/Navigation.dart';
 
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
@@ -36,9 +34,8 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 40, fontFamily: "Roboto-Medium"),
         )
       ),*/
-      home:
-        trainDetails()
-     /* TrainTicket(Type : "GRANDES LIGNES",
+      home: LogIn()
+      /*TrainTicket(Type : "GRANDES LIGNES",
           Station1: "Station1",
           Station2: "Station2",
           Date: "04/05/2021",
