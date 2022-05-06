@@ -39,7 +39,12 @@ dependencies:
   timelines: ^0.1.0
   pull_to_refresh: ^2.0.0
   dotted_line: ^3.1.0
+
   stripe_payment: ^1.1.4
+  circular_bottom_navigation: ^1.0.1
+  qr_flutter: ^4.0.0
+  flutter_cupertino_date_picker: ^0.0.7
+  intl: ^0.17.0
 
 
 dev_dependencies:
@@ -72,6 +77,8 @@ flutter:
     - assets/DimandShapedLine.png
     - assets/TrainTicket_images/rail.png
     - assets/success.png
+    - assets/TrainTicket_images/
+    - assets/dashboard_images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
