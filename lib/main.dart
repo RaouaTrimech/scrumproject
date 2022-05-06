@@ -7,6 +7,8 @@ import 'package:scrumproject/Train_Ticket/TrainTicket.dart';
 import 'package:scrumproject/Utilisateurs/Log%20In/Log%20In.dart';
 import 'package:scrumproject/Utilisateurs/Sign%20Up/Sign%20Up.dart';
 
+import 'Train_Ticket/ConfirmTicketPopUp.dart';
+
 void main() {
   HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
         )
       ),*/
       home:
-        trainDetails()
+      trainDetails()
      /* TrainTicket(Type : "GRANDES LIGNES",
           Station1: "Station1",
           Station2: "Station2",
