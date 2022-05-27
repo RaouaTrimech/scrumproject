@@ -3,8 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import '../../../Globals/global.dart' as globals ;
 import '../Available trains/trainModel.dart';
+import '../Train details/Train_details.dart';
 
 
 Color colorTrainName = Color.fromRGBO(76, 149, 147, 1);
@@ -24,9 +26,12 @@ class trainButtons extends StatelessWidget {
       for(Map i in data){
         trainModel t = trainModel.fromJson(i);
         t.setTrainName(i['trainName']) ;
-        t.setDeparture(DateTime.parse(i['departure']));
-        t.setArrival(DateTime.parse(i['arrival']));
+        t.setDeparture(DateTime.parse(i['departure']).add(const Duration(hours: 1)));
+        t.setArrival(DateTime.parse(i['arrival']).add(const Duration(hours: 1)));
         t.setType(i['type']);
+        t.setLine(i['line']);
+        t.setArrStat(i['stationArr']);
+        t.setDepStat(i['stationDep']);
 
         trainList.add(t);
       }
@@ -35,6 +40,7 @@ class trainButtons extends StatelessWidget {
       return trainList ;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,24 +49,32 @@ class trainButtons extends StatelessWidget {
             child: FutureBuilder(
               future: gettrainsApi(),
               builder: (context , snapshot){
-
                 if(!snapshot.hasData){
-                  return Text('Loading');
+                  return Text('Loading ...');
                 }else {
                   return ListView.separated(
                       itemCount: trainList.length,
                       itemBuilder: (context, index){
-                        return Center(
-                          child: Container(
+                        return
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => trainDetails(train: trainList[index]),
+                                  ));
+                           },
+                            child: Center(
+                               child: Container(
                             width: 400,
                             height: 120,
-                            padding:const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+                            padding:const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(12)),
                               color:Color.fromRGBO(204,235,230, 0.3),
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Column(
@@ -86,10 +100,7 @@ class trainButtons extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        Text('${trainList[index].Departure?.hour.toString()} PM',
+                                        Text( DateFormat('hh:mm a').format(trainList[index].Departure!).toString(),
                                           style: TextStyle(
                                             fontFamily: 'Roboto',
                                             fontSize: 15,
@@ -100,11 +111,14 @@ class trainButtons extends StatelessWidget {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        const Image(image:AssetImage("assets/DimandShapedLine.png")),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left : 3.0),
+                                          child: const Image(image:AssetImage("assets/DimandShapedLine.png")),
+                                        ),
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        Text('${trainList[index].Arrival?.hour.toString()} PM',
+                                        Text(DateFormat('hh:mm a').format(trainList[index].Arrival!).toString(),
                                           style: TextStyle(
                                             fontFamily: 'Roboto',
                                             fontSize: 15,
@@ -121,18 +135,15 @@ class trainButtons extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          SizedBox(
-                                            width: 25,
-                                          ),
                                           Container(
-                                            width: 56,
+                                            width: 70,
                                             height:22,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.all(Radius.circular(12)),
                                               color:Color.fromRGBO(76, 149, 147, 0.81),
                                             ),
                                             child: Center(
-                                              child: Text('Départ',
+                                              child: Text('Departure',
                                                 style: TextStyle(
                                                   fontFamily: 'Roboto',
                                                   fontSize: 13,
@@ -143,7 +154,7 @@ class trainButtons extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 75,
+                                            width: 82,
                                           ),
                                           Container(
                                             width: 56,
@@ -153,7 +164,7 @@ class trainButtons extends StatelessWidget {
                                               color:Color.fromRGBO(76, 149, 147, 0.81),
                                             ),
                                             child: Center(
-                                              child: Text('Arrivé',
+                                              child: Text('Arrival',
                                                 style: TextStyle(
                                                   fontFamily: 'Roboto',
                                                   fontSize: 13,
@@ -171,15 +182,14 @@ class trainButtons extends StatelessWidget {
                                 ),
                                 ClipRRect(
                                     borderRadius: BorderRadius.all(Radius.circular(12)),
-                                    child: const Image(image:AssetImage("assets/shortDistance.jpg"),width: 100,)
+                                    child:
+                                     Image(image:AssetImage("assets/Train_Type/"+trainList[index].Type!+".jpg"),width: 100,)
                                 ),
                               ],
 
                             ),
-                          ),
-                        );
-
-                      },
+                          )));
+                        },
                     separatorBuilder: (BuildContext context, int index) { return const Divider( height: 10); },);
                 }
               },
