@@ -1,46 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:scrumproject/Globals/Popup.dart';
 import 'package:scrumproject/services/payment.dart';
+import '../Available trains/trainModel.dart';
+import '../../../Globals/global.dart' as globals ;
 
 class TrainHeader extends StatefulWidget {
-  String TrainName;
-  String Station1;
-  String Station2;
-  String Date;
-  String Line;
-  String TrainImage;
 
-  TrainHeader({Key? key, required this.TrainName,
-    required this.Station1, required this.Station2,
-    required this.Date, required this.Line,
-    required this.TrainImage }) : super(key: key);
-
+  TrainHeader({Key? key, required this.train}) : super(key: key);
+  final trainModel train ;
   @override
   State<TrainHeader> createState() => _TrainHeaderState();
 //calculate price  ==> to go back to
 }
 
 class _TrainHeaderState extends State<TrainHeader>{
-  late String _TrainName;
-  late String _Station1;
-  late String _Station2;
-  late String _Date;
-  late String _Line;
-  late String _TrainImage;
+  late trainModel _train ;
+  String Station1 = "";
+  String Station2 = "";
   late double _price ;
   late Future<bool> _successAchieved;
   @override
   void initState() {
     super.initState();
-     _TrainName= widget.TrainName;
-     _Station1= widget.Station1;
-     _Station2= widget.Station2;
-     _Date= widget.Date;
-     _Line=widget.Line;
-     _TrainImage=widget.TrainImage;
-
+    _train = widget.train ;
+    getStationName();
      StripeServices.init();
   }
+
+  getStationName() {
+    if (_train.Type == "Long") {
+        Station1 = globals.LongDist.elementAt(_train.DepStat!);
+        Station2 = globals.LongDist.elementAt(_train.ArrStat!);}
+    else {if (_train.Type == "BSahel") {
+        Station1 = globals.SahelBDist.elementAt(_train.DepStat!);
+        Station2 = globals.SahelBDist.elementAt(_train.ArrStat!);}
+    else {
+        Station1 = globals.TunisBDist.elementAt(_train.DepStat!);
+        Station2 = globals.TunisBDist.elementAt(_train.ArrStat!);
+    }}
+  }
+
   //send payment
   Future<bool> payNow() async {
     //the amount must be transformed to cents
@@ -69,7 +69,7 @@ class _TrainHeaderState extends State<TrainHeader>{
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               //TrainImage
-              child : Image (image: AssetImage("assets/longDistance.jpg"),
+              child : Image (image: AssetImage("assets/Train_Type/"+_train.Type!+".jpg"),
                   width: 130 ,
                   height: 110
               ),
@@ -82,7 +82,7 @@ class _TrainHeaderState extends State<TrainHeader>{
                 Container(
                   margin : const EdgeInsets.only(top : 13, bottom: 5),
                   child: Text(
-                    _TrainName,
+                    _train.TrainName!,
                     style: const TextStyle(
                         color: Color.fromRGBO(76, 149, 147, 1),
                         fontFamily: "Roboto",
@@ -102,7 +102,7 @@ class _TrainHeaderState extends State<TrainHeader>{
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                          _Station1 ,
+                          Station1 ,
                           style: const TextStyle(
                               color: Color.fromRGBO(88, 89, 91, 1),
                               fontFamily: "Roboto",
@@ -120,7 +120,7 @@ class _TrainHeaderState extends State<TrainHeader>{
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                          _Station2,
+                          Station2,
                           style: const TextStyle(
                               color: Color.fromRGBO(88, 89, 91, 1),
                               fontFamily: "Roboto",
@@ -149,7 +149,7 @@ class _TrainHeaderState extends State<TrainHeader>{
                                 ),
                               ),
                               Text(
-                                  _Date,
+                                  DateFormat('dd.MM.yy').format(_train.Departure!),
                                   style: const TextStyle(
                                     color: Color.fromRGBO(88, 89, 91, 1),
                                     fontFamily: "Roboto",
@@ -180,7 +180,7 @@ class _TrainHeaderState extends State<TrainHeader>{
                                 ),
                               ),
                               Text(
-                                  _Line,
+                                  '0'+_train.Line.toString(),
                                   style: const TextStyle(
                                     color: Color.fromRGBO(88, 89, 91, 1),
                                     fontFamily: "Roboto",

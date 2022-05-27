@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:scrumproject/Utilisateurs/Log%20In/Log%20In.dart';
 import 'Globals/Popup.dart';
+import 'Trains/Available trains/Train_List.dart';
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
@@ -35,7 +36,6 @@ class MyApp extends StatelessWidget {
 
       home:
         LogIn()
-      //trainDetails()
      /* TrainTicket(Type : "GRANDES LIGNES",
 
           Station1: "Station1",
