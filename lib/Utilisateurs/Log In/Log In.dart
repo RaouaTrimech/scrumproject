@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:scrumproject/Available%20trains/Train_List.dart';
-import 'package:scrumproject/Utilisateurs/utilisateur.dart';
+import 'package:scrumproject/Utilisateurs/Entities/utilisateur.dart';
 import 'package:http/http.dart' as http;
-import '../../Train details/Navigation.dart';
-import '../Dashboard.dart';
+import '../../Trains/Train details/Navigation.dart';
 import '../Sign Up/Redirect.dart';
+import '../../../Globals/global.dart' as globals ;
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -36,8 +35,8 @@ class _LogInState extends State<LogIn> {
   //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Utilisateur user = Utilisateur("","", "");
-  String url = "http://192.168.1.16:8080/login";
+  Utilisateur user = Utilisateur("","","");
+  String url = "http://"+globals.IPAddress+":8080/login";
 
   Future save() async {
     user.email = emailController.text ;
@@ -50,7 +49,7 @@ class _LogInState extends State<LogIn> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Navigation(title: "navigation"),
+            builder: (context) => Navigation(title: "navigation", user : user),
           ));
     }
   }

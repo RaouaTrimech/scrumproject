@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:scrumproject/Available%20trains/trainModel.dart';
+import '../../../Globals/global.dart' as globals ;
+import '../Available trains/trainModel.dart';
 
 
 Color colorTrainName = Color.fromRGBO(76, 149, 147, 1);
@@ -16,7 +17,7 @@ class trainButtons extends StatelessWidget {
   List<trainModel> trainList = [] ;
 
   Future<List<trainModel>> gettrainsApi ()async{
-    final response = await http.get(Uri.parse("http://192.168.1.16:8080/trainList")) ;
+    final response = await http.get(Uri.parse("http://"+globals.IPAddress+":8080/trainList")) ;
     var data = jsonDecode(response.body.toString());
     if(response.statusCode == 200){
       trainList.clear();

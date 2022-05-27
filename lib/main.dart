@@ -1,15 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:scrumproject/Train_Ticket/TrainTicket.dart';
 import 'package:scrumproject/Utilisateurs/Log%20In/Log%20In.dart';
-import 'Train details/Navigation.dart';
-
-import 'Train_Ticket/ConfirmTicketPopUp.dart';
-
+import 'Globals/Popup.dart';
 void main() {
-  HttpOverrides.global = new MyHttpOverrides();
-  runApp(MyApp());
+  HttpOverrides.global = MyHttpOverrides();
+  runApp(const MyApp());
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -27,7 +23,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Scrum Project',
     /*  theme: ThemeData(
         brightness: Brightness.light,
@@ -38,7 +34,8 @@ class MyApp extends StatelessWidget {
       ),*/
 
       home:
-      trainDetails()
+        LogIn()
+      //trainDetails()
      /* TrainTicket(Type : "GRANDES LIGNES",
 
           Station1: "Station1",

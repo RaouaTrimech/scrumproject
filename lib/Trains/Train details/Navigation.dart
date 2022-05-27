@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
 
+import '../../Utilisateurs/Account/Account.dart';
+import '../../Utilisateurs/Dashboard/Dashboard.dart';
+import '../../Utilisateurs/Entities/utilisateur.dart';
 import '../Available trains/Train_List.dart';
-import '../Utilisateurs/Account.dart';
-import '../Utilisateurs/Dashboard.dart';
 
 class Navigation extends StatefulWidget {
-  Navigation({Key? key, required this.title}) : super(key: key);
+  Navigation({Key? key, required this.title , required this.user}) : super(key: key);
   final String title;
+  final Utilisateur user ;
 
   @override
   _NavigationState createState() => _NavigationState();
@@ -18,8 +20,8 @@ class Navigation extends StatefulWidget {
 
 class _NavigationState extends State<Navigation> {
   int selectedPos = 0;
-
   double bottomNavBarHeight = 60;
+  late Utilisateur _user ;
 
   List<TabItem> tabItems = List.of([
     new TabItem(Icons.home, "Home", Colors.white, labelStyle: TextStyle(color: Color.fromRGBO(58, 136, 195, 1),fontWeight: FontWeight.bold)),
@@ -33,6 +35,7 @@ class _NavigationState extends State<Navigation> {
   void initState() {
     super.initState();
     _navigationController = new CircularBottomNavigationController(selectedPos);
+    _user= widget.user;
   }
 
   @override
@@ -54,10 +57,10 @@ class _NavigationState extends State<Navigation> {
         Page = Dashboard();
         break;
       case 1:
-        Page = trainList();
+        Page = const trainList();
         break;
       case 2:
-        Page = Account();
+        Page = Account(user : _user );
         break;
     }
 
