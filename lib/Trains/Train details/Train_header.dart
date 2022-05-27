@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scrumproject/Globals/Popup.dart';
 import 'package:scrumproject/services/payment.dart';
-
-import '../Train_Ticket/ConfirmTicketPopUp.dart';
 
 class TrainHeader extends StatefulWidget {
   String TrainName;
@@ -222,7 +221,7 @@ class _TrainHeaderState extends State<TrainHeader>{
                           /*send ticket to email function */
                         showDialog(
                             context: context,
-                            builder: (context) => confirmTicketPopUp());
+                            builder: (context) => PopUpSuccess(title: "Ticket booked", subtitle: "Your ticket has been sent to your email"));
                       }
                         },
                       child: Text(

@@ -1,10 +1,9 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scrumproject/Utilisateurs/Sign%20Up/Redirect.dart';
-import 'package:scrumproject/Utilisateurs/utilisateur.dart';
+import 'package:scrumproject/Utilisateurs/Entities/utilisateur.dart';
 import 'package:http/http.dart' as http;
+import '../../../Globals/global.dart' as globals ;
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -33,7 +32,7 @@ class _SignUpState extends State<SignUp> {
  //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Utilisateur user = Utilisateur("", "","");
-  String url = "http://192.168.100.159:8080/register";
+  String url = "http://"+globals.IPAddress+":8080/register";
 
   Future save() async {
     user.name = nameController.text ;
