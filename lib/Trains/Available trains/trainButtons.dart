@@ -14,12 +14,16 @@ Color departureArrivalButton = Color.fromRGBO(76, 149, 147, 0.81);
 Color lineColor = Color.fromRGBO(197, 229, 237, 1);
 
 class trainButtons extends StatelessWidget {
-  trainButtons({Key? key}) : super(key: key);
+  trainButtons({Key? key, required this.filter}) : super(key: key);
+  final String filter ; 
 
   List<trainModel> trainList = [] ;
 
   Future<List<trainModel>> gettrainsApi ()async{
-    final response = await http.get(Uri.parse("http://"+globals.IPAddress+":8080/trainList")) ;
+    String uri ;
+    if (filter != "") { uri = "filter?type="+filter; }
+    else {uri = "trainList";} ;
+    final response = await http.get(Uri.parse("http://"+globals.IPAddress+":8080/"+uri)) ;
     var data = jsonDecode(response.body.toString());
     if(response.statusCode == 200){
       trainList.clear();
