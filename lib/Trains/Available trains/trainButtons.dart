@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:scrumproject/Utilisateurs/Entities/SearchArg.dart';
 import '../../../Globals/global.dart' as globals ;
 import '../Available trains/trainModel.dart';
 import '../Train details/Train_details.dart';
@@ -14,15 +15,20 @@ Color departureArrivalButton = Color.fromRGBO(76, 149, 147, 0.81);
 Color lineColor = Color.fromRGBO(197, 229, 237, 1);
 
 class trainButtons extends StatelessWidget {
-  trainButtons({Key? key, required this.filter}) : super(key: key);
-  final String filter ; 
+  trainButtons({Key? key, required this.filter, SearchArg? this.searchArg}) : super(key: key);
+  final String filter ;
+  final SearchArg? searchArg ;
 
   List<trainModel> trainList = [] ;
 
   Future<List<trainModel>> gettrainsApi ()async{
     String uri ;
+    if(searchArg != null){
+      uri = "search?date="+searchArg!.Date+"&type="+searchArg!.Type+"&depStat="+searchArg!.DepStat.toString()
+        +"&arrStat="+searchArg!.ArrStat.toString()+"" ;} else {
     if (filter != "") { uri = "filter?type="+filter; }
-    else {uri = "trainList";} ;
+    else {uri = "trainList";}} ;
+    print(uri);
     final response = await http.get(Uri.parse("http://"+globals.IPAddress+":8080/"+uri)) ;
     var data = jsonDecode(response.body.toString());
     if(response.statusCode == 200){

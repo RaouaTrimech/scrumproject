@@ -1,31 +1,70 @@
 import 'dart:ui';
 
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'DatePickerSearch.dart';
-
+import 'package:intl/intl.dart';
+import 'package:scrumproject/Utilisateurs/Entities/SearchArg.dart';
+import 'package:scrumproject/Utilisateurs/Entities/utilisateur.dart';
+import '../../../Globals/global.dart' as globals ;
+import '../../Globals/PopupFail.dart';
+import '../../Trains/Train details/Navigation.dart';
 
 class Dashboard extends StatefulWidget {
-  Dashboard({ Key? key}) : super(key: key);
+  Dashboard({ Key? key, required this.user}) : super(key: key);
+  final Utilisateur user ;
 
   @override
   _DashboardState createState() => _DashboardState();
 }
-
-final departureController = TextEditingController();
-final arrivalController = TextEditingController();
+String TypeValue = 'Long Distance';
+List<String> StationsList = globals.LongDist ;
+String Station1Value = StationsList.first ;
+String Station2Value = StationsList.last ;
 
 // Toggles the password show status
 
 @override
 void dispose() {
   // Clean up the controller when the widget is disposed.
-  departureController.dispose();
-  arrivalController.dispose();
 }
 
+
 class _DashboardState extends State<Dashboard> {
+  late Utilisateur _user ;
+  SearchArg searchArg = SearchArg("", 0, 0,"");
+  final TextEditingController _dateController = TextEditingController();
+
+  Widget? BasicDateField()  {
+    final format = DateFormat("yyyy-MM-dd");
+      return Scaffold(
+        body : DateTimeField(
+          controller: _dateController,
+          onChanged: (value) {
+          },
+          style: TextStyle(
+            fontSize: 14.2,
+            color: Color.fromRGBO(88, 89, 91, 1),
+          ),
+          resetIcon: Icon(Icons.restore, size: 20,),
+          initialValue: DateTime.now(),
+          textAlign : TextAlign.end,
+          format: format,
+          onShowPicker: (context, currentValue) {
+            return showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime.now().subtract(const Duration(days: 0)),
+              lastDate: DateTime(2100),);
+          },
+        ),
+      );
+  }
+
+  @override
+  void initState(){
+    _user= widget.user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,26 +73,26 @@ class _DashboardState extends State<Dashboard> {
         child: SingleChildScrollView(
            child: Column(
         children: [
-          Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        Container(
-        height:41 ,
-        color:Color.fromRGBO(168, 212, 239, 1),
-      ),
-      Container(
-        height:41 ,
-        color:Color.fromRGBO(168, 212, 239, 0.66),
-      ),
-      Container(
-        height:41 ,
-        color:Color.fromRGBO(204, 235, 230, 1),
-      ),
-      SizedBox(
-        height: 25,
-      ),
-        Stack(
+              Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            Container(
+            height:41 ,
+            color:Color.fromRGBO(168, 212, 239, 1),
+          ),
+          Container(
+            height:41 ,
+            color:Color.fromRGBO(168, 212, 239, 0.66),
+          ),
+          Container(
+            height:41 ,
+            color:Color.fromRGBO(204, 235, 230, 1),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+            Stack(
           alignment: AlignmentDirectional.topStart,
           children: [
             Padding(
@@ -110,7 +149,25 @@ class _DashboardState extends State<Dashboard> {
               ),
               GestureDetector(
                 onTap: () {
-                    //TODO : Search
+                    //TODO
+                  if (Station1Value == Station2Value) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => PopUpFail(title: "Search Fail", subtitle: "The departement station is the same as the arrival one"));
+                      };
+                  switch(TypeValue){
+                    case "Long Distance" : searchArg.Type = "Long" ; break ;
+                    case "Bonlieue Tunis" : searchArg.Type = "BTunis" ; break ;
+                    case "Bonlieue Sahel" : searchArg.Type = "BSahel" ; break ;
+                  }
+                    searchArg.DepStat = StationsList.indexOf(Station1Value) ;
+                    searchArg.ArrStat = StationsList.indexOf(Station2Value);
+                    searchArg.Date = _dateController.text;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Navigation(title: "navigation", user : _user , selectedPos: 1,searchArg: searchArg),
+                      ));
                   },
                 child: Container(
                   margin: EdgeInsets.only(right: 15,left: 15,top: 200),
@@ -159,30 +216,41 @@ class _DashboardState extends State<Dashboard> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                          padding: const EdgeInsets.only(left: 20.0, right: 30.0),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children:  [
-                                const Padding(
-                                  padding:  EdgeInsets.only( bottom: 8.0),
-                                  child:  Text(
-                                      "DEPARTURE CITY",
+                               Text(
+                                      "DEPARTURE STATION",
                                       style: TextStyle(
                                           color: Color.fromRGBO(58, 136, 195, 1),
                                           fontFamily: "Roboto",
                                           fontWeight: FontWeight.w700 ,
                                           fontSize: 10
                                       )),
-                                ),
-                                Container(
-                                  width: 120,
-                                  height: 30,
-                                  child: TextField(
-                                    controller: departureController,
-                                    decoration: InputDecoration(border: OutlineInputBorder())
+                                DropdownButton<String>(
+                                  value: Station1Value,
+                                  icon: const Icon(Icons.arrow_drop_down_sharp),
+                                  elevation: 10,
+                                  style: const TextStyle(color: Color.fromRGBO(88, 89, 91, 1)),
+                                  underline: Container(
+                                    height: 2,
+                                    color: Color.fromRGBO(76, 149, 147, 1),
                                   ),
-                                )
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      Station1Value = newValue!;
+                                    });
+                                  },
+                                  items: StationsList
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                               ]
                           ),
                         ),
@@ -192,25 +260,36 @@ class _DashboardState extends State<Dashboard> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children:  [
-                                const Padding(
-                                  padding:  EdgeInsets.only( bottom: 8.0),
-                                  child:  Text(
-                                      "ARRIVAL CITY",
+                               Text(
+                                      "ARRIVAL STATION",
                                       style: TextStyle(
                                           color: Color.fromRGBO(58, 136, 195, 1),
                                           fontFamily: "Roboto",
                                           fontWeight: FontWeight.w700 ,
                                           fontSize: 10
                                       )),
-                                ),
-                                Container(
-                                  width: 120,
-                                  height: 30,
-                                  child: TextField(
-                                      controller: arrivalController,
-                                      decoration: InputDecoration(border: OutlineInputBorder())
+                                DropdownButton<String>(
+                                  value: Station2Value,
+                                  icon: const Icon(Icons.arrow_drop_down_sharp),
+                                  elevation: 10,
+                                  style: const TextStyle(color: Color.fromRGBO(88, 89, 91, 1)),
+                                  underline: Container(
+                                    height: 2,
+                                    color: Color.fromRGBO(76, 149, 147, 1),
                                   ),
-                                )
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      Station2Value = newValue!;
+                                    });
+                                  },
+                                  items: StationsList
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                               ]
                           ),
                         )
@@ -240,7 +319,7 @@ class _DashboardState extends State<Dashboard> {
                                 SizedBox(
                                   height: 30,
                                     width: 123,
-                                    child: DatePickerSearch())
+                                    child: BasicDateField())
                               ]
                           ),
                         ),
@@ -250,9 +329,7 @@ class _DashboardState extends State<Dashboard> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children:  [
-                                const Padding(
-                                  padding:  EdgeInsets.only( bottom: 8.0),
-                                  child:  Text(
+                                  Text(
                                       "TYPE",
                                       style: TextStyle(
                                           color: Color.fromRGBO(58, 136, 195, 1),
@@ -260,15 +337,35 @@ class _DashboardState extends State<Dashboard> {
                                           fontWeight: FontWeight.w700 ,
                                           fontSize: 10
                                       )),
-                                ),
-                                Container(
-                                  width: 120,
-                                  height: 30,
-                                  child: TextField(
-                                      controller: departureController,
-                                      decoration: InputDecoration(border: OutlineInputBorder())
+                                DropdownButton<String>(
+                                  value: TypeValue,
+                                  icon: const Icon(Icons.arrow_drop_down_sharp),
+                                  elevation: 10,
+                                  style: const TextStyle(color: Color.fromRGBO(88, 89, 91, 1)),
+                                  underline: Container(
+                                    height: 2,
+                                    color: Color.fromRGBO(76, 149, 147, 1),
                                   ),
-                                )
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      TypeValue = newValue!;
+                                      switch (newValue){
+                                        case "Long Distance" : {StationsList = globals.LongDist ; break ;}
+                                        case "Bonlieue Tunis" : StationsList = globals.TunisBDist ; break ;
+                                        case "Bonlieue Sahel" : StationsList = globals.SahelBDist ; break ;
+                                      };
+                                      Station1Value = StationsList.first;
+                                      Station2Value = StationsList.last;
+                                    });
+                                  },
+                                  items: <String>['Long Distance', 'Bonlieue Tunis', 'Bonlieue Sahel']
+                                      .map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                               ]
                           ),
                         )
