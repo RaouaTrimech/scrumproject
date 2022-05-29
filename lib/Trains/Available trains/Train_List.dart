@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:scrumproject/Utilisateurs/Entities/SearchArg.dart';
+import 'package:scrumproject/Utilisateurs/Entities/utilisateur.dart';
 import 'trainButtons.dart';
 
 class trainList extends StatefulWidget {
-  const trainList({Key? key}) : super(key: key);
-
+  const trainList({Key? key, required Utilisateur this.user, SearchArg? this.searchArg}) : super(key: key);
+  final Utilisateur user ;
+  final SearchArg? searchArg ;
   @override
   State<trainList> createState() => _trainListState();
 }
@@ -11,12 +14,12 @@ class trainList extends StatefulWidget {
 class _trainListState extends State<trainList> {
   late List<bool> Selected ;
   String Filter = "";
-
+  late SearchArg? _searchArg ;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Selected = [false,false,false];
+    _searchArg = widget.searchArg! ;
   }
 
   @override
@@ -44,12 +47,17 @@ class _trainListState extends State<trainList> {
                       const SizedBox(
                         height: 30,
                       ),
-                      const Text(
-                        "Available Trains",
-                        style: TextStyle(
-                          fontFamily: "Prata" ,
-                          color: Color.fromRGBO(88, 89, 91, 1),
-                          fontSize: 40,
+                      GestureDetector(
+                        onLongPress: (){
+                          _searchArg = null ;
+                        },
+                        child: Text(
+                          "Available Trains",
+                          style: TextStyle(
+                            fontFamily: "Prata" ,
+                            color: Color.fromRGBO(88, 89, 91, 1),
+                            fontSize: 40,
+                          ),
                         ),
                       ),
                        Padding(
@@ -62,7 +70,7 @@ class _trainListState extends State<trainList> {
                             children : [
                               GestureDetector(
                                 onTap: (){
-                                  setState(() {
+                                  setState(() {if(_searchArg == null) {
                                     if(Selected[0] == true ){Selected[0] = false ; Filter = "";} else {
                                      if((Selected[0] == false)&&(Selected[1] == false)&&(Selected[2] == false)){
                                      Selected[0] = true ;
@@ -72,7 +80,7 @@ class _trainListState extends State<trainList> {
                                      Selected[2] = false ;
                                      Selected[0] = true ; }}
                                      Filter = "Long";
-                                  }});
+                                  }}});
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(top: 10),
@@ -102,16 +110,19 @@ class _trainListState extends State<trainList> {
                               GestureDetector(
                                 onTap: (){
                                  setState(() {
-                                   if(Selected[1] == true ){Selected[1] = false ; Filter = "";} else {
-                                   if((Selected[0] == false)&&(Selected[1] == false)&&(Selected[2] == false)){
-                                     Selected[1] = true ;
-                                   } else {
-                                     if((Selected[0] == true)||(Selected[2]==true)){
-                                       Selected[0] = false ;
-                                       Selected[2] = false ;
-                                       Selected[1] = true ; }}
-                                   Filter = "BTunis";
-                                 }});
+                                   if(_searchArg == null) {
+                                     if(Selected[1] == true ){Selected[1] = false ; Filter = "";} else {
+                                       if((Selected[0] == false)&&(Selected[1] == false)&&(Selected[2] == false)){
+                                         Selected[1] = true ;
+                                       } else {
+                                         if((Selected[0] == true)||(Selected[2]==true)){
+                                           Selected[0] = false ;
+                                           Selected[2] = false ;
+                                           Selected[1] = true ; }}
+                                       Filter = "BTunis";
+                                     }
+                                   }
+                                   });
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(top: 10),
@@ -140,7 +151,7 @@ class _trainListState extends State<trainList> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  setState(() {
+                                  setState(() {if(_searchArg == null) {
                                     if(Selected[2] == true ){Selected[2] = false ; Filter = "";} else {
                                         if((Selected[0] == false)&&(Selected[1] == false)&&(Selected[2] == false)){
                                         Selected[2] = true ;
@@ -150,7 +161,7 @@ class _trainListState extends State<trainList> {
                                         Selected[1] = false ;
                                         Selected[2] = true ; }}
                                         Filter = "BSahel";}
-                                    });
+                                    }});
                                 },
                                 child: Container(
                                   margin: const EdgeInsets.only(top: 10),
@@ -182,7 +193,7 @@ class _trainListState extends State<trainList> {
                       ),
                        ),
                       Expanded(
-                        child:trainButtons(filter : Filter),
+                        child:trainButtons(filter : Filter, searchArg : _searchArg),
                       ),
                     ]
                 ))]),

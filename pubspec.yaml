@@ -45,6 +45,7 @@ dependencies:
   qr_flutter: ^4.0.0
   flutter_cupertino_date_picker: ^0.0.7
   intl: ^0.17.0
+  datetime_picker_formfield: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
     - assets/DimandShapedLine.png
     - assets/TrainTicket_images/rail.png
     - assets/success.png
+    - assets/fail.png
     - assets/TrainTicket_images/
     - assets/dashboard_images/
     - assets/Train_details/

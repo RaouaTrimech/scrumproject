@@ -1,8 +1,9 @@
-import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
+import 'package:scrumproject/Utilisateurs/Entities/SearchArg.dart';
 
 import '../../Utilisateurs/Account/Account.dart';
 import '../../Utilisateurs/Dashboard/Dashboard.dart';
@@ -10,9 +11,11 @@ import '../../Utilisateurs/Entities/utilisateur.dart';
 import '../Available trains/Train_List.dart';
 
 class Navigation extends StatefulWidget {
-  Navigation({Key? key, required this.title , required this.user}) : super(key: key);
+  Navigation({Key? key, required this.title , required this.user, this.selectedPos, this.searchArg}) : super(key: key);
   final String title;
   final Utilisateur user ;
+  final int? selectedPos ;
+  final SearchArg? searchArg ;
 
   @override
   _NavigationState createState() => _NavigationState();
@@ -34,7 +37,8 @@ class _NavigationState extends State<Navigation> {
   @override
   void initState() {
     super.initState();
-    _navigationController = new CircularBottomNavigationController(selectedPos);
+    if (widget.selectedPos != null) {selectedPos = widget.selectedPos! ;}
+    _navigationController = CircularBottomNavigationController(selectedPos);
     _user= widget.user;
   }
 
@@ -49,15 +53,14 @@ class _NavigationState extends State<Navigation> {
       ),
     );
   }
-
+  Widget? Page;
   Widget bodyContainer() {
-    Widget? Page;
     switch (selectedPos) {
       case 0:
-        Page = Dashboard();
+        Page = Dashboard(user : _user);
         break;
       case 1:
-        Page = const trainList();
+        Page = trainList(user : _user, searchArg : widget.searchArg);
         break;
       case 2:
         Page = Account(user : _user );

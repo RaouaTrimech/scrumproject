@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:scrumproject/Utilisateurs/Log%20In/Log%20In.dart';
 import 'Globals/Popup.dart';
 import 'Trains/Available trains/Train_List.dart';
+import 'Utilisateurs/Dashboard/Dashboard.dart';
 void main() {
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
@@ -24,18 +25,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Scrum Project',
-    /*  theme: ThemeData(
-        brightness: Brightness.light,
-        textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 40, color: Color.fromRGBO(88, 89, 91, 100),fontFamily: "Prata"),
-          bodyText2: TextStyle(fontSize: 40, fontFamily: "Roboto-Medium"),
-        )
-      ),*/
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.blue,
+            ),
+          ),
+
 
       home:
-        trainList()
+        //trainList()
+      LogIn()
      /* TrainTicket(Type : "GRANDES LIGNES",
 
           Station1: "Station1",
