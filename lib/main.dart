@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ),*/
 
       home:
-        LogIn()
+        trainList()
      /* TrainTicket(Type : "GRANDES LIGNES",
 
           Station1: "Station1",

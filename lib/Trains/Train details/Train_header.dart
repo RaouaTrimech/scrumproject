@@ -19,7 +19,7 @@ class _TrainHeaderState extends State<TrainHeader>{
   String Station1 = "";
   String Station2 = "";
   late double _price ;
-  late Future<bool> _successAchieved;
+  late Future<String> _successAchieved;
   @override
   void initState() {
     super.initState();
@@ -42,12 +42,12 @@ class _TrainHeaderState extends State<TrainHeader>{
   }
 
   //send payment
-  Future<bool> payNow() async {
+  Future<String> payNow() async {
     //the amount must be transformed to cents
     var response =
     await StripeServices.payNowHandler(amount: getPrice(), currency: 'USD');
     print('response message ${response.message}');
-    return response.success;
+    return 'response message ${response.message}';
   }
   //calculate price ==> to work on later par defaut on a mis la valeur a 1000 centimes
   String getPrice(){
@@ -216,9 +216,11 @@ class _TrainHeaderState extends State<TrainHeader>{
                     child: GestureDetector(
                       onTap:(){
                         /*create train ticket function */
-                        _successAchieved =payNow();
-                        if(_successAchieved == true){
+                         _successAchieved = payNow();
+                        print(_successAchieved);
+                        if(_successAchieved == "response message Transaction succeful"){
                           /*send ticket to email function */
+                          print("---------------WEEEEEEEEEEEEEEEEEE----------------------------");
                         showDialog(
                             context: context,
                             builder: (context) => PopUpSuccess(title: "Ticket booked", subtitle: "Your ticket has been sent to your email"));
