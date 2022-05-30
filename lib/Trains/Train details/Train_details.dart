@@ -51,10 +51,11 @@ class _trainDetailsState extends State<trainDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Center(
+        child: SingleChildScrollView(
+        child: Column(
         children: [
-      Expanded(
-      child: Column(
+          Column(
       mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -198,6 +199,9 @@ class _trainDetailsState extends State<trainDetails> {
            ]
          )
         ]
-    )),]));
+    ),])
+    )
+    )
+    );
   }
 }
