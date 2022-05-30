@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:scrumproject/Globals/Popup.dart';
+
 import 'package:scrumproject/services/payment.dart';
+import '../../Globals/Popup.dart';
+import '../../Globals/global.dart';
+import '../../TicketPages/pdf_api.dart';
 import '../Available trains/trainModel.dart';
 import '../../../Globals/global.dart' as globals ;
 
+import 'package:http/http.dart' as http;
 class TrainHeader extends StatefulWidget {
 
   TrainHeader({Key? key, required this.train}) : super(key: key);
@@ -18,39 +24,107 @@ class _TrainHeaderState extends State<TrainHeader>{
   late trainModel _train ;
   String Station1 = "";
   String Station2 = "";
-  late double _price ;
-  late Future<String> _successAchieved;
+  //ecrire la fonction get price
+  late String _price  ;
+  late bool _successAchieved;
   @override
   void initState() {
     super.initState();
     _train = widget.train ;
     getStationName();
-     StripeServices.init();
+    StripeServices.init();
   }
 
   getStationName() {
     if (_train.Type == "Long") {
-        Station1 = globals.LongDist.elementAt(_train.DepStat!);
-        Station2 = globals.LongDist.elementAt(_train.ArrStat!);}
+      Station1 = globals.LongDist.elementAt(_train.DepStat!);
+      Station2 = globals.LongDist.elementAt(_train.ArrStat!);}
     else {if (_train.Type == "BSahel") {
-        Station1 = globals.SahelBDist.elementAt(_train.DepStat!);
-        Station2 = globals.SahelBDist.elementAt(_train.ArrStat!);}
+      Station1 = globals.SahelBDist.elementAt(_train.DepStat!);
+      Station2 = globals.SahelBDist.elementAt(_train.ArrStat!);}
     else {
-        Station1 = globals.TunisBDist.elementAt(_train.DepStat!);
-        Station2 = globals.TunisBDist.elementAt(_train.ArrStat!);
+      Station1 = globals.TunisBDist.elementAt(_train.DepStat!);
+      Station2 = globals.TunisBDist.elementAt(_train.ArrStat!);
     }}
   }
 
+
+  //getTrainInfo:
+  String getTrainInfos(){
+    if(_train.Type == 'Long') {
+      return 'TrainName: ${_train.TrainName} \n TrainType: ${_train
+          .Type} \n DepartureTime: ${_train
+          .Departure} \n From: ${LongDist[_train
+          .DepStat!]} \n To: ${LongDist[_train.ArrStat!]} \n Price: ${_price}';
+    }else if(_train.Type == 'BTunis'){
+      return 'TrainName: ${_train.TrainName} \n TrainType: ${_train
+          .Type} \n DepartureTime: ${_train
+          .Departure} \n From: ${TunisBDist[_train
+          .DepStat!]} \n To: ${TunisBDist[_train.ArrStat!]} \n Price: ${_price}';
+    }else if (_train.Type == 'BSahel'){
+      return 'TrainName: ${_train.TrainName} \n TrainType: ${_train
+          .Type} \n DepartureTime: ${_train
+          .Departure} \n From: ${SahelBDist[_train
+          .DepStat!]} \n To: ${SahelBDist[_train.ArrStat!]} \n Price: ${_price}';
+    }
+    return 'resultat inconsistant';
+  }
+
+  //createPDf
+  CreatePDF() async {
+    final pdfFile = await PdfApi.generateCenteredText(_train , int.parse(_price));
+    PdfApi.openFile(pdfFile);
+
+  }
+
   //send payment
-  Future<String> payNow() async {
+  payNow() async {
     //the amount must be transformed to cents
+    _price=getPrice();
     var response =
     await StripeServices.payNowHandler(amount: getPrice(), currency: 'USD');
-    print('response message ${response.message}');
-    return 'response message ${response.message}';
+    print('response message :::::::::: ${response.success}');
+    _successAchieved = response.success ;
+    if(_successAchieved ){
+      /*send ticket to email function */
+
+      String message = getTrainInfos();
+      print('----------- $CurrentUserEmail --------------------');
+      sendEmail(email: CurrentUserEmail,subject: 'TrainTicket',message: message);
+      showDialog(
+          context: context,
+          builder: (context) => PopUpSuccess(title: "Ticket booked", subtitle: "Your ticket has been sent to your email"));
+    }
+
   }
   //calculate price ==> to work on later par defaut on a mis la valeur a 1000 centimes
   String getPrice(){
+    int dist = _train.DepStat! - _train.ArrStat! ;
+    if(_train.Type == 'Long') {
+      if (dist.abs() <= 7) {
+        return '12000';
+      }else if (dist.abs() <= 14){
+        return '15000';
+      }else{
+        return '17000';
+      }
+    }else if(_train.Type == 'BTunis'){
+      if (dist.abs() <= 4) {
+        return '2000';
+      }else if (dist.abs() <= 8){
+        return '3000';
+      }else{
+        return '3500';
+      }
+    }else if (_train.Type == 'BSahel'){
+      if (dist.abs() <= 7) {
+        return '2000';
+      }else if (dist.abs() <= 14){
+        return '3000';
+      }else{
+        return '3500';
+      }
+    }
     return '1000';
   }
 
@@ -215,17 +289,11 @@ class _TrainHeaderState extends State<TrainHeader>{
                   child:  Center(
                     child: GestureDetector(
                       onTap:(){
+                        //CreatePDF();
                         /*create train ticket function */
-                         _successAchieved = payNow();
-                        print(_successAchieved);
-                        if(_successAchieved == "response message Transaction succeful"){
-                          /*send ticket to email function */
-                          print("---------------WEEEEEEEEEEEEEEEEEE----------------------------");
-                        showDialog(
-                            context: context,
-                            builder: (context) => PopUpSuccess(title: "Ticket booked", subtitle: "Your ticket has been sent to your email"));
-                      }
-                        },
+                        payNow();
+
+                      },
                       child: Text(
                         'BOOK YOUR TICKET',
                         style: TextStyle(
@@ -241,6 +309,44 @@ class _TrainHeaderState extends State<TrainHeader>{
         ],
       ),
     );
+  }
+
+  Future sendEmail({
+    required String email,
+    required String subject,
+    required String message,
+  }) async {
+    //account emailJS password :exbj{;>6X9
+    final serviceId = 'service_l6lxhve';
+    final templateId = 'template_cv3sb7n';
+    final userId = 'oeDmL6vfgKFeyAy9a';
+
+    //send post request to the EmailJs API
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+    final response = await http.post(
+        url,
+        headers: {
+          'origin': 'http://localhost',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'service_id' : serviceId,
+          'template_id': templateId,
+          'user_id': userId,
+          'template_params': {
+            'user_email':email,
+            'user_subject':subject,
+            'user_message':message,
+          }
+        }));
+
+    if(response.statusCode == 200){
+      showDialog(
+          context: context,
+          builder: (context) => PopUpSuccess(title: "Ticket booked", subtitle: "Your ticket has been sent to your email"));
+
+    }
+
   }
 
 }
