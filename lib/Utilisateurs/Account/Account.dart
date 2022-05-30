@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../Globals/Popup.dart';
+import '../../Landing_Pages/StartScreen.dart';
 import '../Log In/Log In.dart';
 import '../Entities/utilisateur.dart';
 
@@ -34,11 +35,7 @@ class _AccountState extends State<Account> {
   void initState() {
     super.initState();
     _user= widget.user;
-    print(_user.email);
-    url = "http://"+globals.IPAddress+":8080/userInfo?email="+_user.email;
-    print(url);
     emailController = TextEditingController(text: _user.email);
-    getUserInfo();
     nameController = TextEditingController(text: _user.name) ;
   }
 
@@ -53,11 +50,6 @@ class _AccountState extends State<Account> {
 
   //the formkey uniquely identifies the Form Widget and allows validation of the Form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  Future getUserInfo() async {
-    var res = await http.get(Uri.parse(url));
-      _user.name = res.body ;
-    }
 
     Future update() async {
     int id ;
@@ -311,7 +303,7 @@ class _AccountState extends State<Account> {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const LogIn()),
+                                  MaterialPageRoute(builder: (context) => StartScreen()),
                                 );
                               },
 

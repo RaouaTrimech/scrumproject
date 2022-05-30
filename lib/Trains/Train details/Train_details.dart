@@ -72,7 +72,7 @@ class _trainDetailsState extends State<trainDetails> {
               },
               child:Container(
           height: 41 ,
-          width: 400,
+          width: 500,
           color:const Color.fromRGBO(204, 235, 230, 1),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

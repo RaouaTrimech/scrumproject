@@ -53,14 +53,15 @@ class _NavigationState extends State<Navigation> {
       ),
     );
   }
-  Widget? Page;
+
   Widget bodyContainer() {
+    Widget? Page ;
     switch (selectedPos) {
       case 0:
         Page = Dashboard(user : _user);
         break;
       case 1:
-        Page = trainList(user : _user, searchArg : widget.searchArg);
+        Page = trainList(user : _user, searchArg : widget.searchArg) ;
         break;
       case 2:
         Page = Account(user : _user );
@@ -70,7 +71,7 @@ class _NavigationState extends State<Navigation> {
     return GestureDetector(
       child: Center(
           child: Page
-        ),
+      ),
       onTap: () {
         if (_navigationController.value == tabItems.length - 1) {
           _navigationController.value = 0;

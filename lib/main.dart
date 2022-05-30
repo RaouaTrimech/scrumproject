@@ -1,13 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:scrumproject/Utilisateurs/Log%20In/Log%20In.dart';
-import 'Globals/Popup.dart';
-import 'Trains/Available trains/Train_List.dart';
-import 'Utilisateurs/Dashboard/Dashboard.dart';
-void main() {
+import 'package:flutter/services.dart';
+import 'package:scrumproject/Landing_Pages/WelcomeScreen.dart';
+
+void main(){
   HttpOverrides.global = MyHttpOverrides();
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((_){
+    runApp(MyApp());
+  }
+  );
 }
 
 class MyHttpOverrides extends HttpOverrides {
@@ -34,16 +39,7 @@ class MyApp extends StatelessWidget {
           ),
 
 
-      home:
-        //trainList()
-      LogIn()
-     /* TrainTicket(Type : "GRANDES LIGNES",
-
-          Station1: "Station1",
-          Station2: "Station2",
-          Date: "04/05/2021",
-          Line: "04",
-          TravelTime : "13:00")*/
+      home: WelcomeScreen()
     );
   }
 }
