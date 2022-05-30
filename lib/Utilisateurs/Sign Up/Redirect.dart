@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scrumproject/Utilisateurs/Sign%20Up/Sign%20Up.dart';
-
 import '../Log In/Log In.dart';
+import 'Sign Up.dart';
 
 class Redirect extends StatelessWidget {
   String RedirectNature;

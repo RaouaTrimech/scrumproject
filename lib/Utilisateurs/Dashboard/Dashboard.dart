@@ -32,8 +32,9 @@ void dispose() {
 
 class _DashboardState extends State<Dashboard> {
   late Utilisateur _user ;
-  SearchArg searchArg = SearchArg("", 0, 0,"");
-  final TextEditingController _dateController = TextEditingController();
+  late SearchArg searchArg ;
+  late int entry ;
+  final TextEditingController _dateController = TextEditingController(text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
 
   Widget? BasicDateField()  {
     final format = DateFormat("yyyy-MM-dd");
@@ -64,6 +65,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState(){
     _user= widget.user;
+    searchArg = SearchArg("", 0, 0,"");
   }
 
   @override
@@ -163,6 +165,7 @@ class _DashboardState extends State<Dashboard> {
                     searchArg.DepStat = StationsList.indexOf(Station1Value) ;
                     searchArg.ArrStat = StationsList.indexOf(Station2Value);
                     searchArg.Date = _dateController.text;
+                    globals.refresh = 0 ;
                   Navigator.push(
                       context,
                       MaterialPageRoute(

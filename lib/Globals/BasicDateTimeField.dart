@@ -54,7 +54,6 @@ class BasicTimeField extends StatelessWidget {
 
 class BasicDateTimeField extends StatelessWidget {
   final format = DateFormat("yyyy-MM-dd HH:mm");
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

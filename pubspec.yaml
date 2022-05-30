@@ -46,6 +46,7 @@ dependencies:
   flutter_cupertino_date_picker: ^0.0.7
   intl: ^0.17.0
   datetime_picker_formfield: ^2.0.0
+  flutter_slidable: ^1.3.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
   assets:
     - assets/Logo.png
     - assets/Train_Type/
+    - assets/Landing_Pages/
     - assets/DimandShapedLine.png
     - assets/TrainTicket_images/rail.png
     - assets/success.png

@@ -1,5 +1,6 @@
 library globals;
 
+int refresh = 0 ;
 String IPAddress = "192.168.170.236" ;
 List<String> LongDist = ["Tunis","Hammam lif","Borj Cedria",
 "Grombalia","Bou Argoub","Bir Bourguiba","Enfitha","Kalaaa Kebira",
