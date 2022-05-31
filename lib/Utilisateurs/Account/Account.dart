@@ -37,6 +37,7 @@ class _AccountState extends State<Account> {
     _user= widget.user;
     emailController = TextEditingController(text: _user.email);
     nameController = TextEditingController(text: _user.name) ;
+    print(_user.name);
   }
 
   @override
