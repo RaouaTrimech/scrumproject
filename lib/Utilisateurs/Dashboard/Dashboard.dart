@@ -156,7 +156,7 @@ class _DashboardState extends State<Dashboard> {
                         showDialog(
                             context: context,
                             builder: (context) => PopUpFail(title: "Search Fail", subtitle: "The departement station is the same as the arrival one"));
-                      };
+                      } else {
                   switch(TypeValue){
                     case "Long Distance" : searchArg.Type = "Long" ; break ;
                     case "Bonlieue Tunis" : searchArg.Type = "BTunis" ; break ;
@@ -171,7 +171,7 @@ class _DashboardState extends State<Dashboard> {
                       MaterialPageRoute(
                         builder: (context) => Navigation(title: "navigation", user : _user , selectedPos: 1,searchArg: searchArg),
                       ));
-                  },
+                  }},
                 child: Container(
                   margin: EdgeInsets.only(right: 15,left: 15,top: 200),
                   height: 50,
