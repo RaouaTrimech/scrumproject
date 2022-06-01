@@ -46,7 +46,7 @@ class _LogInState extends State<LogIn> {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({'name':user.name,'email': user.email, 'password': user.password}));
     print(res.body);
-    if (res.body != null) {
+    if (res.body != "") {
       user.name = res.body ;
       CurrentUserEmail = user.email ;
       Navigator.push(
@@ -54,6 +54,14 @@ class _LogInState extends State<LogIn> {
           MaterialPageRoute(
             builder: (context) => Navigation(title: "navigation", user : user),
           ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar( backgroundColor: Color.fromRGBO(223, 135, 123, 1),
+        content: Text('Login failed : wrong email or password !'), padding: EdgeInsets.all(30),
+      ));
+      setState(() {
+        emailController.clear() ;
+        passwordController.clear() ;
+      });
     }
   }
 
